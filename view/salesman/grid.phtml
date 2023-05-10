@@ -10,13 +10,13 @@ $salesmen = $this->salesmen;
 </head>
 <body>
 	<?php require 'view/html/header.phtml'; ?>
-	<table class="table">
+	<table class="table table-striped">
 		<tr>
 			<th>Manage Salesman</th>
 			<th> <button> <a href="index.php?c=salesman&a=add">ADD</a> </button></th>
 		</tr>
 	</table>
-	<table class="table">
+	<table class="table table-striped">
 		<tr>
 			<th>SALESMAN ID</th>
 			<th>FIRST NAME</th>
@@ -46,5 +46,7 @@ $salesmen = $this->salesmen;
 		</tr>
 	<?php endforeach; ?>
 	</table>
+
+
 </body>
 </html>
