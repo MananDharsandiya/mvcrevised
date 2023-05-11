@@ -76,18 +76,18 @@ class Model_Core_Adapter
 		}
 		return false;
 	}
+
 	public function fetchOne($query)
 	{
 		$connect = $this->connect();
 		$result = mysqli_query($connect,$query);
-		if ($result->num_rows == 0) 
-		{
+		if ($result->num_rows == 0) {
 			return null;
 		}
+
 		$row = $result->fetch_array();
-		if ($row)
-		 {
-			return (array_key_exists(0,$row)) ? $row[0]:null;
+		if ($row) {
+		return (array_key_exists(0, $row)) ? $row[0] : null;
 		}
 	}
 }

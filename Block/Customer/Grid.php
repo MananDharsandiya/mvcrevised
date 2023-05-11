@@ -14,18 +14,17 @@ class Block_Customer_Grid extends Block_Core_Grid
 	public function getCollection()
 	{
 		$query = "SELECT count('customer_id') FROM `customer`";
-		$totalRecords = Ccc::getModel('Core_Adapter')->fetchOne($query);
+		$totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
 
-		$currentPage = Ccc::getModel('Core_Request')->getParams('p',1);
-		$pager = Ccc::getModel('core_Pager');
-		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecords);
+		$currentPage = Ccc::getModel('Core_Request')->getParams('p');
+		$pager = Ccc::getModel('Core_Pagination');
+		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecord);
 		$pager->calculate();
 		$this->setPager($pager);
 		
-		$query = "SELECT * FROM `customer` LIMIT $pager->startLimit,$pager->recordPerPage";
-		
-		$customeres = Ccc::getModel('customer')->fetchAll($query);
-		return $customeres;
+		$query = "SELECT * FROM `customer` LIMIT {$pager->getStartLimit()},{$pager->getRecordPerPage()}";
+		$customers = Ccc::getModel('Customer')->fetchAll($query);
+		return $customers;	
 	}
 
 	protected function _prepareColumns()

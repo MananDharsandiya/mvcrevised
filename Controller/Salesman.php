@@ -10,18 +10,23 @@ class Controller_Salesman extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid',$grid);
 			$layout->render();
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Salesman not showed.',Model_Core_Message :: FAILURE);
 		}
 	}
 
 	public function addAction()
 	{
+		try {
+			
 		$layout = $this->getLayout();
 		$salesman = Ccc::getModel('Salesman');
 		$address = Ccc::getModel('Salesman_Address');
     	$add = $layout->createBlock('Salesman_Edit')->setData(['salesman'=>$salesman,'salesmanAddress'=>$address]);
 		$layout->getChild('content')->addChild('add',$add);
 		$layout->render();
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Salesman not added.',Model_Core_Message :: FAILURE);
+		}
 	}
 
 	public function editAction()
@@ -36,10 +41,13 @@ class Controller_Salesman extends Controller_Core_Action
 			if (!$salesmanAddress) {
 				throw new Exception("Salesman address not found", 1);
 			}
-			$this->getView()->setTemplate('salesman/edit.phtml')->setData(['salesman'=>$salesman,'salesmanAddress'=>$salesmanAddress]);
-			$this->render();
+			$layout = $this->getLayout();
+			$edit = $layout->createBlock('Salesman_Edit')->setData(['salesman'=>$salesman,'salesmanAddress' => $salesmanAddress]);
+
+			$layout->getChild('content')->addChild('edit',$edit);
+			$layout->render();
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Salesman not edited.',Model_Core_Message :: FAILURE);
 		}
 	}
 
@@ -87,9 +95,9 @@ class Controller_Salesman extends Controller_Core_Action
 			if (!$salesmanAddress->save()) {
 				throw new Exception("Salesman addresss not saved.", 1);
 			}
-
+			$this->getMessage()->addMessage('Salesman saved successfully.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Salesman not Saved.',Model_Core_Message :: FAILURE);	
 		}
 		$this->redirect('grid','salesman',null,true);
 	}
@@ -110,8 +118,9 @@ class Controller_Salesman extends Controller_Core_Action
 				throw new Exception("Salesman Address not saved", 1);
 			}
 			$salesmanAddress->delete();
+			$this->getMessage()->addMessage('Salesman deleted.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Salesman not deleted.',Model_Core_Message :: FAILURE);
 		}
 	$this->redirect('grid','salesman',null,true);
 	} 

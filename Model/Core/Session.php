@@ -2,60 +2,58 @@
 
 class Model_Core_Session
 {
+	public function start()
+	{
+		if (session_status() == 1) {
+		session_start();
+		}
+		return $this;
+	}
+
 	public function getId()
 	{
 		return session_id();
 	}
-	
-	//to start session
-	public function start()
-	{
-	   session_start();
-	   return $this;
-	}
-	
-	//to destroy session
+
 	public function destroy()
 	{
-		return session_destroy();
-	}
-	//to set a values in session array
-	public function set($key,$value)
-	{
-		$_SESSION[$key]=$value;
+		session_destroy();
 		return $this;
 	}
 
+	public function set($key,$value)
+	{
+		$this->start();
+		$_SESSION[$key] = $value;
+		return $this;
+	}
 
-	//to get a value from seted array
-	public function get($key){
+	public function get($key)
+	{
+		$this->start();
 		if (!array_key_exists($key,$_SESSION)) {
 			return null;
 		}
 		return $_SESSION[$key];
 	}
 
-
-	//clear seted array
 	public function unset($key)
 	{
-		if(array_key_exists($key,$_SESSION)){
+		$this->start();
+		if (array_key_exists($key,$_SESSION)) {
 			unset($_SESSION[$key]);
 		}
 		return $this;
+			
 	}
 
-	//check key exist or not
-	public function has($key){
-		if(array_key_exists($key,$_SESSION)){
+	public function has($key)
+	{
+		$this->start();
+		if (array_key_exists($key,$_SESSION)) {
+
 			return true;
 		}
 		return false;
-
 	}
-
-
 }
-
-
-?>

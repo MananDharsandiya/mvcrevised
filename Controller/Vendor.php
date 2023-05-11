@@ -10,19 +10,22 @@ class Controller_Vendor extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid',$grid);
 			$layout->render();
 		} catch (Exception $e) {
-	
+			$this->getMessage()->addMessage('Vendor not showed.',Model_Core_Message :: FAILURE);
 		}	
 	}
 
 	public function addAction()
 	{
+		try {	
 		$layout = $this->getLayout();
 		$vendor = Ccc::getModel('Vendor');
 		$address = Ccc::getModel('Vendor_Address');
     	$add = $layout->createBlock('Vendor_Edit')->setData(['vendor'=>$vendor,'vendorAddress'=>$address]);
 		$layout->getChild('content')->addChild('add',$add);
 		$layout->render();
-		
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Vendor not added.',Model_Core_Message :: FAILURE);
+		}
 	}
 
 	public function editAction()
@@ -47,7 +50,7 @@ class Controller_Vendor extends Controller_Core_Action
 			$layout->getChild('content')->addChild('edit',$edit);
 			$layout->render();
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Vendor not edited.',Model_Core_Message :: FAILURE);
 		}
 	}
 
@@ -85,42 +88,44 @@ class Controller_Vendor extends Controller_Core_Action
 			}
 			if ($id = (int)$this->getRequest()->getParams('id')) {
 				$vendorAddress = Ccc::getModel('Vendor_Address')->load($id);
-				if (!$vendorAddress)
-				 {
+				if (!$vendorAddress) {
 					throw new Exception("Invalid id.", 1);
 				}
 			}
-			else
-			{
+			else{
 				$vendorAddress = Ccc::getModel('Vendor_Address');
 				$vendorAddress->vendor_id = $vendor->vendor_id;
 			}
 			$vendorAddress->setData($postDataAddress);
-			if (!$vendorAddress->save()) 
-			{
+			if (!$vendorAddress->save()) {
 				throw new Exception("Unable to save vendor.", 1);
 			}
-			$this->redirect('grid','vendor',null,true);
-		} catch (Exception $e)
-		 {
-			
+			$this->getMessage()->addMessage('Vendor saved successfully.',Model_Core_Message :: SUCCESS);
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Vendor not Saved.',Model_Core_Message :: FAILURE);	
 		}
+		$this->redirect('grid','vendor',null,true);
 	}
 
 	public function deleteAction()
 	{
-		if (!($id = (int) $this->getRequest()->getParams('id'))) {
-		throw new Exception("Error Processing Request", 1);
-		}
-		$vendor = Ccc::getModel('Vendor')->load($id);
-
-		if (!$vendor) {
+		try {
+			if (!($id = (int) $this->getRequest()->getParams('id'))) {
 			throw new Exception("Error Processing Request", 1);
-		}
-		$vendorAddress = Ccc::getModel('Vendor_Address')->load($id);
+			}
+			$vendor = Ccc::getModel('Vendor')->load($id);
 
-		$vendor->delete();
-		$vendorAddress->delete();
+			if (!$vendor) {
+				throw new Exception("Error Processing Request", 1);
+			}
+			$vendorAddress = Ccc::getModel('Vendor_Address')->load($id);
+
+			$vendor->delete();
+			$vendorAddress->delete();
+			$this->getMessage()->addMessage('Vendor deleted.',Model_Core_Message :: SUCCESS);
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Vendor not deleted.',Model_Core_Message :: FAILURE);
+		}
 		$this->redirect('grid','vendor',null,true);
 	}
 }

@@ -2,18 +2,12 @@
 
 class Model_Category extends Model_Core_Table
 {
-	const STATUS_ACTIVE = 1;
-    const STATUS_ACTIVE_LBL = 'Active';
-    const STATUS_INACTIVE =  2;
-    const STATUS_INACTIVE_LBL = 'Inactive';
-    const STATUS_DEFAULT= 1;
-
 	public function getStatus()
 	{
 		if ($this->status) {
 			return $this->status;
 		}
-		return Model_Category::STATUS_DEFAULT;
+		return Model_Category_Resource::STATUS_DEFAULT;
 	}
 
 	public function getStatusText($status)
@@ -22,7 +16,7 @@ class Model_Category extends Model_Core_Table
 		if (array_key_exists($this->status,$statuses)) {
 			return $statuses[$this->status];
 		}
-		return $statuses[Model_Category::STATUS_DEFAULT];
+		return $statuses[Model_Category_Resource::STATUS_DEFAULT];
 	}
 
 	public function __construct()

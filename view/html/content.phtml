@@ -1,6 +1,6 @@
-<?php 
+<?php
 $children = $this->getChildren();
-foreach ($children as $child) {
-	$child->render();
+foreach ($children as $key => $child) {
+	$child->render();	
 }
 ?>

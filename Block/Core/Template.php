@@ -6,7 +6,6 @@ class Block_Core_Template extends Model_Core_View
 	protected $layout = null;
 	protected $pager = null;
 
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -69,7 +68,7 @@ class Block_Core_Template extends Model_Core_View
 		return $this;
 	}
 
-	public function setChildren( array $children)
+	public function setChildren(array $children)
 	{
 		$this->children = $children;
 		return $this;
@@ -77,9 +76,6 @@ class Block_Core_Template extends Model_Core_View
 
 	public function getChildren()
 	{
-		// if($key){
-		// 	return $this->children[$key];
-		// }
 		return $this->children;
 	}
 
