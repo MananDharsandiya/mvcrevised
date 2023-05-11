@@ -4,19 +4,27 @@ class Controller_Category extends Controller_Core_Action
 {
 	public function gridAction()
 	{
-		$layout = $this->getLayout();
-		$grid = $layout->createBlock('Category_Grid');
-		$layout->getChild('content')->addChild('grid',$grid);
-		$layout->render();
+		try {	
+			$layout = $this->getLayout();
+			$grid = $layout->createBlock('Category_Grid');
+			$layout->getChild('content')->addChild('grid',$grid);
+			$layout->render();
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Category not showed.',Model_Core_Message :: FAILURE);
+		}
 	}
 
 	public function addAction()
 	{
-		$layout = $this->getLayout();
-		$category = Ccc::getModel('Category');
-    	$add = $layout->createBlock('Category_Edit')->setData(['category'=>$category]);
-		$layout->getChild('content')->addChild('add',$add);
-		$layout->render();
+		try {	
+			$layout = $this->getLayout();
+			$category = Ccc::getModel('Category');
+	    	$add = $layout->createBlock('Category_Edit')->setData(['category'=>$category]);
+			$layout->getChild('content')->addChild('add',$add);
+			$layout->render();
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Category not added.',Model_Core_Message :: FAILURE);
+		}
 	}
 
 	public function editAction()
@@ -38,7 +46,7 @@ class Controller_Category extends Controller_Core_Action
 			$layout->getChild('content')->addChild('edit',$edit);
 			$layout->render();
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Category not edited.',Model_Core_Message :: FAILURE);
 		}
 	}
 
@@ -68,10 +76,11 @@ class Controller_Category extends Controller_Core_Action
 			if (!$category->save()) {
 				throw new Exception("Category not saved.", 1);
 			}
-			$this->redirect('grid','category',null,true);
+			$this->getMessage()->addMessage('Category saved successfully.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
-				
+			$this->getMessage()->addMessage('Category not Saved.',Model_Core_Message :: FAILURE);	
 		}
+		$this->redirect('grid','category',null,true);
 	}
 
 
@@ -87,8 +96,9 @@ class Controller_Category extends Controller_Core_Action
 			}
 			$category->delete();
 			
+			$this->getMessage()->addMessage('Category deleted.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Category not deleted.',Model_Core_Message :: FAILURE);
 		}
 	$this->redirect('grid','category',null,true);
 	}

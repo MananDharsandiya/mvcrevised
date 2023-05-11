@@ -14,16 +14,16 @@ class Block_Vendor_Grid extends Block_Core_Grid
 	public function getCollection()
 	{
 		$query = "SELECT count('vendor_id') FROM `vendor`";
-		$totalRecords = Ccc::getModel('Core_Adapter')->fetchOne($query);
+		$totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
 
-		$currentPage = Ccc::getModel('Core_Request')->getParams('p',1);
-		$pager = Ccc::getModel('core_Pager');
-		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecords);
+		$currentPage = Ccc::getModel('Core_Request')->getParams('p');
+		$pager = Ccc::getModel('Core_Pagination');
+		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecord);
 		$pager->calculate();
 		$this->setPager($pager);
 		
-		$query = "SELECT * FROM `vendor` LIMIT $pager->startLimit,$pager->recordPerPage";
-		$vendors = Ccc::getModel('vendor')->fetchAll($query);
+		$query = "SELECT * FROM `vendor` LIMIT {$pager->getStartLimit()},{$pager->getRecordPerPage()}";
+		$vendors = Ccc::getModel('Vendor')->fetchAll($query);
 		return $vendors;
 	}
 

@@ -1,17 +1,18 @@
-<?php 
-class Model_Core_Message 
-{
+<?php
+
+class Model_Core_Message{
+
+	protected $session = null;
 	const SUCCESS = 'success';
 	const FAILURE = 'failure';
 	const NOTICE = 'notice';
-	protected $session = null;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->getSession();
 	}
 
-	public function setSession($session)
+	public function setSession(Model_Core_Session $session)
 	{
 		$this->session = $session;
 		return $this;
@@ -19,38 +20,43 @@ class Model_Core_Message
 
 	public function getSession()
 	{
-		if($this->session){
+		if ($this->session != null) {
 			return $this->session;
 		}
-	
-	$session = Ccc::getModel('Core_Session');
-	$this->setSession($session);
-	return $this->session;
+		$session = new Model_Core_Session();
+		$this->setSession($session);
+		return $session;
 	}
 
-	public function addMessage($message , $type = self::SUCCESS)
+	public function addMessage($message,$type='success')
 	{
-		if(!$this->getSession()->has('message')) {
+		if (!$type) {
+			$type = self :: SUCCESS;
+		}
+
+		if (!$this->getSession()->has('message')) {
 			$this->getSession()->set('message',[]);
 		}
-		$message = $this->getMessage();
-		$message[$type] = $message;
-		$this->getSession()->set('message',$message);
+		$messages = $this->getMessages();
+		$messages[$type] =$message;
+
+		$this->getSession()->set('message',$messages);
 		return $this;
+
 	}
 
-	public function clearMessage()
+	public function getMessages()
 	{
-		$this->getSession()->set('message',[]);
-		return $this;
-	}
-
-	public function getMessage()
-	{
-		if(!$this->getSession()->has('message')){
+		if (!$this->getSession()->has('message')) {
 			return null;
 		}
 		return $this->getSession()->get('message');
 	}
+
+	public function clearMessages()
+	{
+		$this->getSession()->set('message',[]);
+		return $this;
+
+	}
 }
-?>

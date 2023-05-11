@@ -137,8 +137,6 @@ class Block_Core_Grid extends Block_Core_Template
 		return null;
 	}
 
-	
-
 	protected function _prepareButtons()
 	{
 		return $this;

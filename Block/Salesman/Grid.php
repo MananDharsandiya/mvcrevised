@@ -14,16 +14,16 @@ class Block_Salesman_Grid extends Block_Core_Grid
 	public function getCollection()
 	{
 		$query = "SELECT count('salesman_id') FROM `salesman`";
-		$totalRecords = Ccc::getModel('Core_Adapter')->fetchOne($query);
+		$totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
 
-		$currentPage = Ccc::getModel('Core_Request')->getParams('p',1);
-		$pager = Ccc::getModel('core_Pager');
-		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecords);
+		$currentPage = Ccc::getModel('Core_Request')->getParams('p');
+		$pager = Ccc::getModel('Core_Pagination');
+		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecord);
 		$pager->calculate();
 		$this->setPager($pager);
 		
-		$query = "SELECT * FROM `salesman` LIMIT $pager->startLimit,$pager->recordPerPage";
-		$salesmen = Ccc::getModel('salesman')->fetchAll($query);
+		$query = "SELECT * FROM `salesman` LIMIT {$pager->getStartLimit()},{$pager->getRecordPerPage()}";
+		$salesmen = Ccc::getModel('Salesman')->fetchAll($query);
 		return $salesmen;
 	}
 

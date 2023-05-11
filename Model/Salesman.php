@@ -1,7 +1,7 @@
 <?php
 
-class Model_Salesman extends Model_Core_Table{
-
+class Model_Salesman extends Model_Core_Table
+{
    public function getStatus()
    {
       if ($this->status) {

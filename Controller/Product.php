@@ -11,17 +11,21 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid',$grid);
 			$layout->render();
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Product not showed.',Model_Core_Message :: FAILURE);
 		}
 	}
 
 	public function addAction()
 	{
-		$layout = $this->getLayout();
-		$product = Ccc::getModel('Product');
-    	$add = $layout->createBlock('Product_Edit')->setData(['product'=>$product]);
-		$layout->getChild('content')->addChild('add',$add);
-		$layout->render();
+		try {
+			$layout = $this->getLayout();
+			$product = Ccc::getModel('Product');
+	    	$add = $layout->createBlock('Product_Edit')->setData(['product'=>$product]);
+			$layout->getChild('content')->addChild('add',$add);
+			$layout->render();
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Product not added.',Model_Core_Message :: FAILURE);
+		}
 	}
 
 	public function editAction()
@@ -43,7 +47,7 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('edit',$edit);
 			$layout->render();
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Product not edited.',Model_Core_Message :: FAILURE);
 		}
 	}
 
@@ -73,10 +77,11 @@ class Controller_Product extends Controller_Core_Action
 			if (!$product->save()) {
 				throw new Exception("Product not saved.", 1);
 			}
-			$this->redirect('grid','product',null,true);
+			$this->getMessage()->addMessage('Product saved successfully.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
-				
+			$this->getMessage()->addMessage('Product not Saved.',Model_Core_Message :: FAILURE);	
 		}
+		$this->redirect('grid','product',null,true);
 	}
 
 
@@ -91,12 +96,11 @@ class Controller_Product extends Controller_Core_Action
 				throw new Exception("Product not found", 1);
 			}
 			$product->delete();
-			
+			$this->getMessage()->addMessage('Product deleted.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
-			
+			$this->getMessage()->addMessage('Product not deleted.',Model_Core_Message :: FAILURE);
 		}
 	$this->redirect('grid','product',null,true);
 	}
 
 }
-?>

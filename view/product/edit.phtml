@@ -32,7 +32,7 @@ $product = $this->product;
 			</tr>
 			<tr>
 				<td>SKU</td>
-				<td> <input type="text" name="product[SKU]" value="<?php echo $product->SKU ?>">  </td>
+				<td> <input type="text" name="product[sku]" value="<?php echo $product->SKU ?>">  </td>
 			</tr>
 			<tr>
 				<td>STATUS</td>
@@ -45,19 +45,6 @@ $product = $this->product;
 					</select>
 
 				</td>
-			</tr>
-			
-			<tr>
-				<td>DISCRIPTION</td>
-				<td> <input type="text" name="product[description]" value="<?php echo $product->description ?>">  </td>
-			</tr>
-			<tr>
-				<td>COLOR</td>
-				<td> <input type="text" name="product[color]" value="<?php echo $product->color ?>">  </td>
-			</tr>
-			<tr>
-				<td>MATERIAL</td>
-				<td> <input type="text" name="product[material]" value="<?php echo $product->material ?>">  </td>
 			</tr>
 			<tr>
 				<th> <button> <a href="index.php?c=product&a=grid">CANCEL</a> </button></th>

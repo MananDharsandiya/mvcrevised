@@ -15,31 +15,28 @@ class Block_Product_Grid extends Block_Core_Grid
 	public function getCollection()
 	{
 		$query = "SELECT count('product_id') FROM `product`";
-		$totalRecords = Ccc::getModel('Core_Adapter')->fetchOne($query);
+		$totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
 
-		$currentPage = Ccc::getModel('Core_Request')->getParams('p',1);
-		$pager = Ccc::getModel('Core_Pager');
-		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecords);
+		$currentPage = Ccc::getModel('Core_Request')->getParams('p');
+		$pager = Ccc::getModel('Core_Pagination');
+		$pager->setCurrentPage($currentPage)->setTotalRecords($totalRecord);
 		$pager->calculate();
 		$this->setPager($pager);
 		
-		$query = "SELECT * FROM `product` LIMIT $pager->startLimit,$pager->recordPerPage";
-		$productes = Ccc::getModel('product')->fetchAll($query);
-		return $productes;
+		$query = "SELECT * FROM `product` LIMIT {$pager->getStartLimit()},{$pager->getRecordPerPage()}";
+		$products = Ccc::getModel('Product')->fetchAll($query);
+		return $products;
 	}
 
 	protected function _prepareColumns()
 	{
 		$this->addColumn('product_id',['title' => 'Product Id']);
 		$this->addColumn('name',['title' => 'Name']);
+		$this->addColumn('sku',['title' => 'SKU']);
 		$this->addColumn('cost',['title' => 'Cost']);
-		$this->addColumn('SKU',['title' => 'SKU']);
 		$this->addColumn('price',['title' => 'Price']);
 		$this->addColumn('quantity',['title' => 'Quantity']);
-		$this->addColumn('description',['title' => 'Description']);
 		$this->addColumn('status',['title' => 'Status']);
-		$this->addColumn('color',['title' => 'Color']);
-		$this->addColumn('material',['title' => 'Material']);
 		$this->addColumn('created_at',['title' => 'Created_at']);
 		$this->addColumn('updated_at',['title' => 'Updated_at']);
 		return parent::_prepareColumns();
@@ -48,16 +45,8 @@ class Block_Product_Grid extends Block_Core_Grid
 
 	protected function _prepareActions()
 	{
-		$this->addAction('edit', [
-			'title' => 'Edit',
-			'method' => 'getEditUrl',
-			'btnColor' => 'primary'
-		]);
-		$this->addAction('delete', [
-			'title' => 'Delete',
-			'method' => 'getDeleteUrl',
-			'btnColor' => 'danger'
-		]);
+		$this->addAction('edit',['title' => 'Edit','method' => 'getEditUrl']);
+		$this->addAction('delete',['title' => 'Delete','method' => 'getDeleteUrl']);
 		return parent::_prepareActions();
 	}
 

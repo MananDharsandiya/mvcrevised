@@ -7,6 +7,8 @@ class Controller_Core_Action
    protected $url = null;
    protected $view = null;
    protected $layout = null;
+   protected $message = null;
+   protected $session = null;
 
    public function setAdapter($adapter)
    {
@@ -22,6 +24,38 @@ class Controller_Core_Action
          $adapter = new Model_Core_Adapter();
          $this->setAdapter($adapter);
          return $this->adapter;
+   }
+
+   public function setMessage($message)
+   {
+         $this->message = $message;
+         return $this;
+   }
+
+   public function getMessage()
+   {
+         if ($this->message) {
+            return $this->message;
+         }
+         $message = new Model_Core_Message();
+         $this->setMessage($message);
+         return $this->message;
+   }
+
+   public function setSession($session)
+   {
+         $this->session = $session;
+         return $this;
+   }
+
+   public function getSession()
+   {
+         if ($this->session) {
+            return $this->session;
+         }
+         $session = new Model_Core_Session();
+         $this->setSession($session);
+         return $this->session;
    }
 
    protected function setRequest(Model_Core_Request $request)
