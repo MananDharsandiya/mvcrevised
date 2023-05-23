@@ -38,7 +38,7 @@ class Block_Core_Template extends Model_Core_View
 		if ($this->pager) {
 			return $this->pager;
 		}
-		$pager = new Block_Core_Pager();
+		$pager = new Model_Core_Pagination();
 		$this->setPager($pager);
 		return $pager;
 	}
@@ -94,5 +94,3 @@ class Block_Core_Template extends Model_Core_View
 	}
 
 }
-
-?>

@@ -58,5 +58,3 @@ class Block_Salesman_Grid extends Block_Core_Grid
 		return parent::_prepareButtons();
 	}
 }
-
-?>

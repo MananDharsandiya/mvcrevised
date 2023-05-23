@@ -8,5 +8,3 @@ class Block_Html_Left extends Block_Core_Template
 		$this->setTemplate('html/left.phtml');
 	}
 }
-
-?>

@@ -8,5 +8,3 @@ class Block_Html_Content extends Block_Core_Template
 		$this->setTemplate('html/content.phtml');
 	}
 }
-
-?>

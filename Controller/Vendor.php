@@ -17,12 +17,12 @@ class Controller_Vendor extends Controller_Core_Action
 	public function addAction()
 	{
 		try {	
-		$layout = $this->getLayout();
-		$vendor = Ccc::getModel('Vendor');
-		$address = Ccc::getModel('Vendor_Address');
-    	$add = $layout->createBlock('Vendor_Edit')->setData(['vendor'=>$vendor,'vendorAddress'=>$address]);
-		$layout->getChild('content')->addChild('add',$add);
-		$layout->render();
+			$layout = $this->getLayout();
+			$vendor = Ccc::getModel('Vendor');
+			$address = Ccc::getModel('Vendor_Address');
+	    	$add = $layout->createBlock('Vendor_Edit')->setData(['vendor'=>$vendor,'vendorAddress'=>$address]);
+			$layout->getChild('content')->addChild('add',$add);
+			$layout->render();
 		} catch (Exception $e) {
 			$this->getMessage()->addMessage('Vendor not added.',Model_Core_Message :: FAILURE);
 		}

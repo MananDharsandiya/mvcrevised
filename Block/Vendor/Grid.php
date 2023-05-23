@@ -58,5 +58,3 @@ class Block_Vendor_Grid extends Block_Core_Grid
 		return parent::_prepareButtons();
 	}
 }
-
-?>

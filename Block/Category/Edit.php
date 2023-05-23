@@ -8,6 +8,11 @@ class Block_category_Edit extends Block_Core_Template
 		$this->setTemplate('category/edit.phtml');
 		
 	}
+
+	public function getRow()
+	{
+		return  $this->getData('category');	
+	}
 	
 }
 ?>

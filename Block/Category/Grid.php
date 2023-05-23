@@ -22,15 +22,16 @@ class Block_Category_Grid extends Block_Core_Grid
 		$pager->calculate();
 		$this->setPager($pager);
 		
-		$query = "SELECT * FROM `category` LIMIT {$pager->getStartLimit()},{$pager->getRecordPerPage()}";
-		$categories = Ccc::getModel('Category')->fetchAll($query);
+		$category = Ccc::getModel('Category');
+		$query = "SELECT * FROM `{$category->getResource()->getResourceName()}` WHERE `parent_id` > 0 ORDER BY `path` ASC LIMIT {$pager->getStartLimit()},{$pager->getRecordPerPage()};";
+		$categories = $category->fetchAll($query);
 		return $categories;
 	}
 
 	protected function _prepareColumns()
 	{
 		$this->addColumn('category_id',['title' => 'Category Id']);
-		$this->addColumn('name',['title' => 'Name']);
+		$this->addColumn('path',['title' => 'Name']);
 		$this->addColumn('description',['title' => 'Description']);
 		$this->addColumn('status',['title' => 'Status']);
 		$this->addColumn('created_at',['title' => 'Created_at']);

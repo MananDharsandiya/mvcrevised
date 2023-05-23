@@ -22,5 +22,3 @@ class Block_Html_Head extends Block_Core_Template
 	}
 
 }
-
-?>

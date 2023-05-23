@@ -32,11 +32,14 @@ class Block_Product_Grid extends Block_Core_Grid
 	{
 		$this->addColumn('product_id',['title' => 'Product Id']);
 		$this->addColumn('name',['title' => 'Name']);
-		$this->addColumn('sku',['title' => 'SKU']);
 		$this->addColumn('cost',['title' => 'Cost']);
+		$this->addColumn('SKU',['title' => 'SKU']);
 		$this->addColumn('price',['title' => 'Price']);
 		$this->addColumn('quantity',['title' => 'Quantity']);
+		$this->addColumn('description',['title' => 'Description']);
 		$this->addColumn('status',['title' => 'Status']);
+		$this->addColumn('color',['title' => 'Color']);
+		$this->addColumn('material',['title' => 'Material']);
 		$this->addColumn('created_at',['title' => 'Created_at']);
 		$this->addColumn('updated_at',['title' => 'Updated_at']);
 		return parent::_prepareColumns();
@@ -57,5 +60,3 @@ class Block_Product_Grid extends Block_Core_Grid
 		return parent::_prepareButtons();
 	}
 }
-
-?>

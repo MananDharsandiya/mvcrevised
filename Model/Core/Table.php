@@ -5,8 +5,8 @@ class Model_Core_Table
 	protected $data = [];
 	protected $resource = null;
 	protected $collection = null;
-	protected $resourceClass = 'Model_Core_Resource_Resource';
-	protected $collectionClass = 'Model_Core_Resource_Collection';
+	protected $resourceClass = 'Model_Core_Table_Resource';
+	protected $collectionClass = 'Model_Core_Table_Collection';
 
 	function __construct()
 	{
@@ -30,32 +30,10 @@ class Model_Core_Table
 		return $this;
 	}
 
-	public function getResourceClass()
-	{
-		if ($this->resourceClass) {
-			return $this->resourceClass;
-		}
-
-		$resourceClass = new ($this->resourceClass)();
-		$this->setResourceClass($resourceClass);
-		return $resourceClass;
-	}
-
 	public function setCollectionClass($collectionClass)
 	{
 		$this->collectionClass = $collectionClass;
 		return $this;
-	}
-
-	public function getCollectionClass()
-	{
-		if ($this->collectionClass) {
-			return $this->collectionClass;
-		}
-
-		$collectionClass = new ($this->collectionClass)();
-		$this->setCollectionClass($collectionClass);
-		return $collectionClass;
 	}
 
 	public function getResourceName()
@@ -83,6 +61,23 @@ class Model_Core_Table
 		$resource = new ($this->resourceClass)();
 		$this->setResource($resource);
 		return $resource;
+	}
+
+	public function setCollection($collection)
+	{
+		$this->collection = $collection;
+		return $this;
+	}
+
+	public function getCollection()
+	{
+		if ($this->collection) {
+			return $this->collection;
+		}
+
+		$collection = new ($this->collectionClass)();
+		$this->setCollection($collection);
+		return $collection;
 	}
 
 	public function __set($key,$value)
@@ -140,9 +135,12 @@ class Model_Core_Table
 		}
 
 		foreach ($result as &$row) {
-			$row = (new $this)->setData($row)->setResource($this->getResource());
+			$row = (new $this)->setData($row)
+						->setResource($this->getResource())
+						->setCollection($this->getCollection());
 		}
-		return $result;
+		$collection = $this->getCollection()->setData($result);
+		return $collection;
 	}
 
 	public function fetchRow($query)

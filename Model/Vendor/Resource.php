@@ -20,5 +20,3 @@ class Model_Vendor_Resource extends Model_Core_Table_Resource
 			$this->setPrimaryKey('vendor_id');
 		}	
 }
-
-?>
