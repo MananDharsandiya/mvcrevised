@@ -4,7 +4,7 @@ class Model_Core_Pagination
 {
     protected $totalRecords = 0;
     protected $currentPage = 0;
-    protected $recordPerPage = 10;
+    protected $recordPerPage = 5;
     protected $numberOfPages = 0;
     protected $start = 1;
     protected $previous = 0;

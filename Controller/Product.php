@@ -11,7 +11,7 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid',$grid);
 			$layout->render();
 		} catch (Exception $e) {
-			$this->getMessage()->addMessage('Product not showed.',Model_Core_Message :: FAILURE);
+			$this->getMessage()->addMessage('Product not showed.',Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -24,7 +24,7 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('add',$add);
 			$layout->render();
 		} catch (Exception $e) {
-			$this->getMessage()->addMessage('Product not added.',Model_Core_Message :: FAILURE);
+			$this->getMessage()->addMessage('Product not added.',Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -47,7 +47,7 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('edit',$edit);
 			$layout->render();
 		} catch (Exception $e) {
-			$this->getMessage()->addMessage('Product not edited.',Model_Core_Message :: FAILURE);
+			$this->getMessage()->addMessage('Product not edited.',Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -77,9 +77,25 @@ class Controller_Product extends Controller_Core_Action
 			if (!$product->save()) {
 				throw new Exception("Product not saved.", 1);
 			}
-			$this->getMessage()->addMessage('Product saved successfully.',Model_Core_Message :: SUCCESS);
+			else{
+			$this->getMessage()->addMessage('Product saved successfully. ',Model_Core_Message::SUCCESS);
+			$attributeData = $this->getRequest()->getPost('attribute');
+			$querires = [];
+			foreach ($attributeData as $backendType => $value) {
+
+			foreach ($value as $attributeId => $v) {
+				if (is_array($v)) {
+					$v = implode(",", $v);
+				}
+				$model = Ccc::getModel('Core_Table');
+				$resource = $model->getResource()->setResourceName("product_{$backendType}")->setPrimaryKey('value_id');
+				$query = "INSERT INTO `product_{$backendType}` (`product_id`,`attribute_id`,`value`) VALUES ('{$product->getId()}','{$attributeId}','{$v}') ON DUPLICATE KEY UPDATE `value` = '{$v}'";
+				$id = $model->getResource()->getAdapter()->query($query);
+				}
+			}
+			}
 		} catch (Exception $e) {
-			$this->getMessage()->addMessage('Product not Saved.',Model_Core_Message :: FAILURE);	
+			$this->getMessage()->addMessage('Product not saved.',Model_Core_Message::FAILURE);	
 		}
 		$this->redirect('grid','product',null,true);
 	}

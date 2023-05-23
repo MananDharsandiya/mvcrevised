@@ -14,4 +14,9 @@ class Model_Core_Table_Collection
 	{
 		return $this->data;
 	}
+
+	public function count()
+	{
+		return count($this->data);
+	}
 }	

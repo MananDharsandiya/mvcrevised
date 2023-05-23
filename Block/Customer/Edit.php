@@ -7,5 +7,14 @@ class Block_Customer_Edit extends Block_Core_Template
 		parent::__construct();
 		$this->setTemplate('customer/edit.phtml');
 	}
+
+	public function getRow()
+	{
+		$customer = $this->getData('customer');
+		$billingAddress = $this->getData('billingAddress');
+		$shippingAddress = $this->getData('shippingAddress');
+		$final = [$customer,$billingAddress,$shippingAddress];
+		return $final;
+	}
 }
 

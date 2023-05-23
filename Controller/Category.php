@@ -76,6 +76,10 @@ class Controller_Category extends Controller_Core_Action
 			if (!$category->save()) {
 				throw new Exception("Category not saved.", 1);
 			}
+			else{
+				$category->updatePath();
+			}
+			
 			$this->getMessage()->addMessage('Category saved successfully.',Model_Core_Message :: SUCCESS);
 		} catch (Exception $e) {
 			$this->getMessage()->addMessage('Category not Saved.',Model_Core_Message :: FAILURE);	

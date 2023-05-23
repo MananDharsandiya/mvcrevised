@@ -25,3 +25,5 @@ class Ccc
 }
 
 Ccc::init();
+
+?>

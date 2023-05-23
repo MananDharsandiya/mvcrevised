@@ -19,9 +19,4 @@ class Model_Salesman_Resource extends Model_Core_Table_Resource
 			$this->setResourceName('salesman');
 			$this->setPrimaryKey('salesman_id');
 		}
-
-
-	
 }
-
-?>

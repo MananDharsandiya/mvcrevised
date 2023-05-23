@@ -8,5 +8,3 @@ class Block_Html_Message extends Block_Core_Template
 		$this->setTemplate('html/message.phtml');
 	}
 }
-
-?>

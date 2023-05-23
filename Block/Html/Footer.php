@@ -8,5 +8,3 @@ class Block_Html_Footer extends Block_Core_Template
 		$this->setTemplate('html/footer.phtml');
 	}
 }
-
-?>

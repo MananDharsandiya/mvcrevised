@@ -6,9 +6,6 @@ class Block_Customer_Grid extends Block_Core_Grid
 	{
 		parent::__construct();
 		$this->getCollection();
-		$this->_prepareColumns();
-		$this->_prepareActions();
-		$this->_prepareButtons();
 		$this->setTitle('Manage Customer Method');
 	}
 	public function getCollection()
@@ -57,5 +54,3 @@ class Block_Customer_Grid extends Block_Core_Grid
 		return parent::_prepareButtons();
 	}
 }
-
-?>

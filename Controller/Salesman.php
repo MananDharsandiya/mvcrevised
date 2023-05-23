@@ -17,13 +17,12 @@ class Controller_Salesman extends Controller_Core_Action
 	public function addAction()
 	{
 		try {
-			
-		$layout = $this->getLayout();
-		$salesman = Ccc::getModel('Salesman');
-		$address = Ccc::getModel('Salesman_Address');
-    	$add = $layout->createBlock('Salesman_Edit')->setData(['salesman'=>$salesman,'salesmanAddress'=>$address]);
-		$layout->getChild('content')->addChild('add',$add);
-		$layout->render();
+			$layout = $this->getLayout();
+			$salesman = Ccc::getModel('Salesman');
+			$address = Ccc::getModel('Salesman_Address');
+	    	$add = $layout->createBlock('Salesman_Edit')->setData(['salesman'=>$salesman,'salesmanAddress'=>$address]);
+			$layout->getChild('content')->addChild('add',$add);
+			$layout->render();
 		} catch (Exception $e) {
 			$this->getMessage()->addMessage('Salesman not added.',Model_Core_Message :: FAILURE);
 		}

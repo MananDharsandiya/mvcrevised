@@ -8,5 +8,3 @@ class Block_Html_Header extends Block_Core_Template
 		$this->setTemplate('html/header.phtml');
 	}
 }
-
-?>

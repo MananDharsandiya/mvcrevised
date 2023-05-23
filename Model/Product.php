@@ -26,4 +26,20 @@ class Model_Product extends Model_Core_Table
       $this->setResourceClass('Model_Product_Resource');
       $this->setCollectionClass('Model_Product_Collection');
    }
+
+   public function getAttributes()
+   {
+      $sql = "SELECT * FROM `eav_attribute` WHERE `entity_type_id` = 1";
+      $attributes =Ccc::getModel('Core_Eav_Attribute')->fetchAll($sql);
+      if ($attributes) {
+           return $attributes->getData();
+      }
+      return Ccc::getModel('Core_Eav_Attribute');
+   }
+
+   public function getAttributeValue($attribute)
+   {
+      $sql = "SELECT `value` FROM `product_{$attribute->backend_type}` WHERE `product_id` = '{$this->getId()}' AND `attribute_id` = '{$attribute->getId()}'";
+      return $this->getResource()->getAdapter()->fetchOne($sql);
+   }
 }

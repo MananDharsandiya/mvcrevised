@@ -77,6 +77,12 @@ class Model_Core_Adapter
 		return false;
 	}
 
+	public function query($sql)
+	{
+		$connect = $this->connect();
+		return $connect->query($sql);
+	}
+
 	public function fetchOne($query)
 	{
 		$connect = $this->connect();
@@ -89,6 +95,23 @@ class Model_Core_Adapter
 		if ($row) {
 		return (array_key_exists(0, $row)) ? $row[0] : null;
 		}
+	}
+
+	public function fetchPairs($query)
+	{
+		$connect = $this->connect();
+		$result = mysqli_query($connect,$query);
+		if ($result->num_rows == 0) {
+			return false;
+		}
+
+		$data = $result->fetch_all();
+		$column1 = array_column($data,'0');
+		$column2 = array_column($data,'1');
+		if (!$column2) {
+			$column2 = array_fill(0, count($column1), null);
+		}
+		return array_combine($column1,$column2);
 	}
 }
 
